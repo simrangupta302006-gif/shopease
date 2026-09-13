@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Shopping Cart | ShopEase</title>
+
+    <link rel="stylesheet"
+          href="/css/style.css">
+
+</head>
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+        🛒 <span>ShopEase</span>
+    </div>
+
+    <nav>
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/products">
+            Products
+        </a>
+
+        <a href="/#categories">
+            Categories
+        </a>
+
+    </nav>
+
+    <div class="nav-actions">
+
+        <a href="/login"
+           class="login-btn">
+            Login
+        </a>
+
+        <a href="/cart"
+           class="cart-btn"
+           id="cartButton">
+            🛒 Cart
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- ================= CART HEADER ================= -->
+
+<section class="cart-header">
+
+    <p class="small-title">
+        YOUR SHOPPING BAG
+    </p>
+
+    <h1>
+        Shopping Cart
+    </h1>
+
+    <p>
+        Review your items before checkout.
+    </p>
+
+</section>
+
+
+<!-- ================= EMPTY CART ================= -->
+
+<div class="empty-cart"
+     th:if="${#lists.isEmpty(items)}">
+
+    <div class="empty-cart-icon">
+        🛒
+    </div>
+
+    <h2>
+        Your cart is empty
+    </h2>
+
+    <p>
+        Looks like you haven't added anything yet.
+    </p>
+
+    <a href="/products"
+       class="shop-now"
+       id="continueShoppingButton">
+
+        Continue Shopping
+
+    </a>
+
+</div>
+
+
+<!-- ================= CART ================= -->
+
+<section class="cart-container"
+         th:unless="${#lists.isEmpty(items)}">
+
+
+    <!-- CART ITEMS -->
+
+    <div class="cart-items">
+
+        <div class="cart-item"
+             th:each="item : ${items}">
+
+            <div class="cart-product-image">
+
+                <span th:text="${item.product.icon}">
+                    💻
+                </span>
+
+            </div>
+
+
+            <div class="cart-product-info">
+
+                <span
+                    class="product-category"
+                    th:text="${item.product.category}">
+
+                    Electronics
+
+                </span>
+
+                <h3
+                    th:text="${item.product.name}">
+
+                    Product Name
+
+                </h3>
+
+                <p
+                    class="cart-price"
+                    th:text="'₹' + ${#numbers.formatInteger(item.product.price, 1, 'COMMA')}">
+
+                    ₹0
+
+                </p>
+
+            </div>
+
+
+            <!-- QUANTITY -->
+
+            <div class="cart-quantity">
+
+                <form action="/cart/update"
+                      method="post">
+
+                    <input
+                        type="hidden"
+                        name="productId"
+                        th:value="${item.product.id}">
+
+                    <input
+                        type="hidden"
+                        name="quantity"
+                        th:value="${item.quantity - 1}">
+
+                    <button
+                        type="submit"
+                        id="decreaseCartQuantity">
+
+                        −
+
+                    </button>
+
+                </form>
+
+
+                <span
+                    class="cart-quantity-value"
+                    th:text="${item.quantity}">
+
+                    1
+
+                </span>
+
+
+                <form action="/cart/update"
+                      method="post">
+
+                    <input
+                        type="hidden"
+                        name="productId"
+                        th:value="${item.product.id}">
+
+                    <input
+                        type="hidden"
+                        name="quantity"
+                        th:value="${item.quantity + 1}">
+
+                    <button
+                        type="submit"
+                        id="increaseCartQuantity">
+
+                        +
+
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- ITEM TOTAL -->
+
+            <div class="cart-item-total">
+
+                <strong
+                    th:text="'₹' + ${#numbers.formatInteger(item.itemTotal, 1, 'COMMA')}">
+
+                    ₹0
+
+                </strong>
+
+            </div>
+
+
+            <!-- REMOVE -->
+
+            <form action="/cart/remove"
+                  method="post">
+
+                <input
+                    type="hidden"
+                    name="productId"
+                    th:value="${item.product.id}">
+
+                <button
+                    type="submit"
+                    class="remove-button"
+                    id="removeCartItem">
+
+                    ✕
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= ORDER SUMMARY ================= -->
+
+    <div class="order-summary">
+
+        <h2>
+            Order Summary
+        </h2>
+
+
+        <div class="summary-row">
+
+            <span>
+                Subtotal
+            </span>
+
+            <strong
+                th:text="'₹' + ${#numbers.formatInteger(subtotal, 1, 'COMMA')}">
+
+                ₹0
+
+            </strong>
+
+        </div>
+
+
+        <div class="summary-row">
+
+            <span>
+                Delivery
+            </span>
+
+            <strong
+                th:text="'₹' + ${#numbers.formatInteger(delivery, 1, 'COMMA')}">
+
+                ₹99
+
+            </strong>
+
+        </div>
+
+
+        <hr>
+
+
+        <div class="summary-total">
+
+            <span>
+                Total
+            </span>
+
+            <strong
+                th:text="'₹' + ${#numbers.formatInteger(total, 1, 'COMMA')}">
+
+                ₹0
+
+            </strong>
+
+        </div>
+
+
+        <a href="/checkout"
+           class="checkout-button"
+           id="checkoutButton">
+
+            Proceed to Checkout →
+
+        </a>
+
+
+        <a href="/products"
+           class="continue-link">
+
+            ← Continue Shopping
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-logo">
+        🛒 ShopEase
+    </div>
+
+    <p>
+        Your trusted online shopping destination.
+    </p>
+
+    <p class="copyright">
+        © 2026 ShopEase. All rights reserved.
+    </p>
+
+</footer>
+
+
+</body>
+</html>

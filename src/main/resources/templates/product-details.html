@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title th:text="${name} + ' | ShopEase'">
+        Product Details | ShopEase
+    </title>
+
+    <link rel="stylesheet"
+          href="/css/style.css">
+
+</head>
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+        🛒 <span>ShopEase</span>
+    </div>
+
+    <nav>
+
+        <a href="/" id="homeLink">
+            Home
+        </a>
+
+        <a href="/products" id="productsLink">
+            Products
+        </a>
+
+        <a href="/#categories" id="categoriesLink">
+            Categories
+        </a>
+
+    </nav>
+
+    <div class="nav-actions">
+
+        <a href="/login"
+           class="login-btn"
+           id="loginButton">
+
+            Login
+
+        </a>
+
+        <a href="/cart"
+           class="cart-btn"
+           id="cartButton">
+
+            🛒 Cart
+
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- ================= BREADCRUMB ================= -->
+
+<div class="breadcrumb">
+
+    <a href="/">
+        Home
+    </a>
+
+    <span> / </span>
+
+    <a href="/products">
+        Products
+    </a>
+
+    <span> / </span>
+
+    <span th:text="${name}">
+        Product
+    </span>
+
+</div>
+
+
+<!-- ================= PRODUCT DETAILS ================= -->
+
+<section class="product-details">
+
+    <!-- PRODUCT IMAGE -->
+
+    <div class="details-image">
+
+        <span th:text="${icon}">
+            💻
+        </span>
+
+    </div>
+
+
+    <!-- PRODUCT INFORMATION -->
+
+    <div class="details-info">
+
+        <span class="details-category"
+              th:text="${category}">
+
+            Electronics
+
+        </span>
+
+        <h1 th:text="${name}">
+            Premium Laptop
+        </h1>
+
+        <div class="details-rating">
+
+            <span th:text="${rating}">
+                ⭐⭐⭐⭐⭐
+            </span>
+
+            <span>
+                (24 Reviews)
+            </span>
+
+        </div>
+
+        <div class="details-price"
+             th:text="${price}">
+
+            ₹59,999
+
+        </div>
+
+        <p class="details-description"
+           th:text="${description}">
+
+            Product description
+
+        </p>
+
+
+        <!-- QUANTITY -->
+
+        <div class="quantity-section">
+
+            <label>
+                Quantity
+            </label>
+
+            <div class="quantity-control">
+
+                <button
+                    id="decreaseQuantity"
+                    onclick="decreaseQuantity()">
+
+                    −
+
+                </button>
+
+                <span id="quantity">
+                    1
+                </span>
+
+                <button
+                    id="increaseQuantity"
+                    onclick="increaseQuantity()">
+
+                    +
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="details-actions">
+
+            <button
+                class="details-add-cart"
+                id="addToCartButton"
+                onclick="addProductToCart()">
+
+                🛒 Add to Cart
+
+            </button>
+
+            <a
+                href="/products"
+                class="continue-shopping"
+                id="continueShopping">
+
+                ← Continue Shopping
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FEATURES ================= -->
+
+<section class="product-features">
+
+    <div class="feature-box">
+
+        <div class="feature-icon">
+            🚚
+        </div>
+
+        <h3>
+            Fast Delivery
+        </h3>
+
+        <p>
+            Quick and reliable delivery.
+        </p>
+
+    </div>
+
+
+    <div class="feature-box">
+
+        <div class="feature-icon">
+            🔒
+        </div>
+
+        <h3>
+            Secure Payment
+        </h3>
+
+        <p>
+            Your payments are protected.
+        </p>
+
+    </div>
+
+
+    <div class="feature-box">
+
+        <div class="feature-icon">
+            ↩️
+        </div>
+
+        <h3>
+            Easy Returns
+        </h3>
+
+        <p>
+            Simple and hassle-free returns.
+        </p>
+
+    </div>
+
+
+    <div class="feature-box">
+
+        <div class="feature-icon">
+            ✓
+        </div>
+
+        <h3>
+            Quality Products
+        </h3>
+
+        <p>
+            Products you can trust.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-logo">
+        🛒 ShopEase
+    </div>
+
+    <p>
+        Your trusted online shopping destination.
+    </p>
+
+    <p class="copyright">
+        © 2026 ShopEase. All rights reserved.
+    </p>
+
+</footer>
+
+
+<script th:inline="javascript">
+
+let quantity = 1;
+
+
+function increaseQuantity() {
+
+    quantity++;
+
+    document.getElementById("quantity").textContent = quantity;
+
+}
+
+
+function decreaseQuantity() {
+
+    if (quantity > 1) {
+
+        quantity--;
+
+    }
+
+    document.getElementById("quantity").textContent = quantity;
+
+}
+
+
+async function addProductToCart() {
+
+    const productId = /*[[${id}]]*/ 0;
+
+    for (let i = 0; i < quantity; i++) {
+
+        await fetch(
+            "/cart/add?productId=" + productId,
+            {
+                method: "POST"
+            }
+        );
+
+    }
+
+    window.location.href = "/cart";
+}
+
+</script>
+
+
+</body>
+</html>

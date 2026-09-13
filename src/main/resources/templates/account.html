@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Account | ShopEase</title>
+
+    <link rel="stylesheet"
+          href="/css/style.css">
+
+</head>
+
+<body>
+
+
+<header class="navbar">
+
+    <div class="logo">
+        🛒 <span>ShopEase</span>
+    </div>
+
+    <nav>
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/products">
+            Products
+        </a>
+
+        <a href="/cart">
+            Cart
+        </a>
+
+    </nav>
+
+    <div class="nav-actions">
+
+        <a href="/logout"
+           class="login-btn"
+           id="logoutButton">
+
+            Logout
+
+        </a>
+
+    </div>
+
+</header>
+
+
+<section class="account-section">
+
+    <div class="account-card">
+
+        <div class="account-icon">
+            👤
+        </div>
+
+        <p class="small-title">
+            MY ACCOUNT
+        </p>
+
+        <h1>
+            Welcome to ShopEase
+        </h1>
+
+        <p>
+            You are logged in as:
+        </p>
+
+        <strong
+            class="account-email"
+            th:text="${email}">
+
+            user@example.com
+
+        </strong>
+
+
+        <div class="account-actions">
+
+            <a href="/products"
+               class="shop-now"
+               id="shopProductsButton">
+
+                Continue Shopping
+
+            </a>
+
+            <a href="/cart"
+               class="continue-link">
+
+                View Cart
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <div class="footer-logo">
+        🛒 ShopEase
+    </div>
+
+    <p>
+        Your trusted online shopping destination.
+    </p>
+
+    <p class="copyright">
+        © 2026 ShopEase. All rights reserved.
+    </p>
+
+</footer>
+
+
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login | ShopEase</title>
+
+    <link rel="stylesheet"
+          href="/css/style.css">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        🛒 <span>ShopEase</span>
+    </div>
+
+    <nav>
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/products">
+            Products
+        </a>
+
+    </nav>
+
+    <div class="nav-actions">
+
+        <a href="/cart"
+           class="cart-btn">
+
+            🛒 Cart
+
+        </a>
+
+    </div>
+
+</header>
+
+
+<section class="auth-section">
+
+    <div class="auth-card">
+
+        <div class="auth-icon">
+            🔐
+        </div>
+
+        <p class="small-title">
+            WELCOME BACK
+        </p>
+
+        <h1>
+            Login
+        </h1>
+
+        <p class="auth-subtitle">
+            Login to your ShopEase account.
+        </p>
+
+
+        <div class="error-message"
+             th:if="${error}"
+             th:text="${error}">
+        </div>
+
+
+        <div class="success-message"
+             th:if="${success}"
+             th:text="${success}">
+        </div>
+
+
+        <form
+            action="/login"
+            method="post"
+            id="loginForm">
+
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="auth-button"
+                id="loginButton">
+
+                Login
+
+            </button>
+
+        </form>
+
+
+        <p class="auth-footer">
+
+            Don't have an account?
+
+            <a href="/register"
+               id="registerLink">
+
+                Create Account
+
+            </a>
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <div class="footer-logo">
+        🛒 ShopEase
+    </div>
+
+    <p>
+        Your trusted online shopping destination.
+    </p>
+
+    <p class="copyright">
+        © 2026 ShopEase. All rights reserved.
+    </p>
+
+</footer>
+
+</body>
+</html>
