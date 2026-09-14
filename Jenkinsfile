@@ -19,7 +19,7 @@ pipeline {
         stage('Unit Tests') {
             steps {
                 echo 'Running unit tests...'
-                bat 'mvnw.cmd test'
+               bat 'mvnw.cmd test -Dtest=!ShopEaseSeleniumTest'
             }
         }
 
@@ -50,7 +50,7 @@ pipeline {
         stage('Selenium Tests') {
             steps {
                 echo 'Running Selenium browser tests...'
-                bat 'mvnw.cmd test'
+                bat 'mvnw.cmd test -Dtest=ShopEaseSeleniumTest'
             }
         }
     }
