@@ -58,6 +58,29 @@ pipeline {
         bat '"C:\\Users\\srist\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" --version'
     }
 }
+        stage('Docker Build & Push') {
+            steps {
+                echo 'Building ShopEase Docker image...'
+
+                bat '"C:\\Users\\srist\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" build -t simran3006/shopease:%BUILD_NUMBER% .'
+
+                echo 'Logging in to Docker Hub...'
+
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'dockerhub-credentials',
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DOCKER_TOKEN'
+                    )
+                ]) {
+                    bat 'echo %DOCKER_TOKEN% | "C:\\Users\\srist\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" login -u %DOCKER_USER% --password-stdin'
+
+                    echo 'Pushing ShopEase image to Docker Hub...'
+
+                    bat '"C:\\Users\\srist\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" push simran3006/shopease:%BUILD_NUMBER%'
+                }
+            }
+        }
     }
 
     post {
