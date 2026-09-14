@@ -89,6 +89,32 @@ pipeline {
                 }
             }
         }
+        stage('Deploy ShopEase') {
+    steps {
+        echo 'Deploying ShopEase container...'
+
+        bat '''
+            "C:\\Users\\srist\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" rm -f shopease-container 2>NUL || exit /B 0
+        '''
+
+        bat '''
+            "C:\\Users\\srist\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" pull simran3006/shopease:%BUILD_NUMBER%
+        '''
+
+        bat '''
+            "C:\\Users\\srist\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" run -d -p 8085:8084 --name shopease-container simran3006/shopease:%BUILD_NUMBER%
+        '''
+
+        echo 'Waiting for ShopEase deployment...'
+
+        bat '''
+            powershell -NoProfile -Command ^
+            "$ready=$false; for($i=0;$i -lt 20;$i++){ try { $r=Invoke-WebRequest -Uri 'http://localhost:8085' -UseBasicParsing -TimeoutSec 2; if($r.StatusCode -eq 200){$ready=$true; break} } catch {}; Start-Sleep -Seconds 2 }; if(-not $ready){ docker logs shopease-container; exit 1 }"
+        '''
+
+        echo 'ShopEase deployed successfully!'
+    }
+}
     }
 
     post {
