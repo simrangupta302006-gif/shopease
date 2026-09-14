@@ -19,7 +19,7 @@ pipeline {
         stage('Unit Tests') {
             steps {
                 echo 'Running unit tests...'
-               bat 'mvnw.cmd test -Dtest=!ShopEaseSeleniumTest'
+                bat 'mvnw.cmd test -Dtest=!ShopEaseSeleniumTest'
             }
         }
 
@@ -53,11 +53,15 @@ pipeline {
                 bat 'mvnw.cmd test -Dtest=ShopEaseSeleniumTest'
             }
         }
+
         stage('Docker Check') {
-    steps {
-        bat '"C:\\Users\\srist\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" --version'
-    }
-}
+            steps {
+                echo 'Checking Docker installation...'
+
+                bat '"C:\\Users\\srist\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" --version'
+            }
+        }
+
         stage('Docker Build & Push') {
             steps {
                 echo 'Building ShopEase Docker image...'
@@ -68,11 +72,12 @@ pipeline {
 
                 withCredentials([
                     usernamePassword(
-                        credentialsId: 'dockerhub-credentials',
+                        credentialsId: 'dockerhub-shopease',
                         usernameVariable: 'DOCKER_USER',
                         passwordVariable: 'DOCKER_TOKEN'
                     )
                 ]) {
+
                     bat 'echo %DOCKER_TOKEN% | "C:\\Users\\srist\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" login -u %DOCKER_USER% --password-stdin'
 
                     echo 'Pushing ShopEase image to Docker Hub...'
@@ -84,6 +89,7 @@ pipeline {
     }
 
     post {
+
         always {
             echo 'Stopping ShopEase application...'
 
