@@ -78,7 +78,10 @@ pipeline {
                     )
                 ]) {
 
-                    bat 'echo %DOCKER_TOKEN% | "C:\\Users\\srist\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" login -u %DOCKER_USER% --password-stdin'
+                    bat '''
+                        powershell -NoProfile -Command ^
+                        "$env:DOCKER_TOKEN | & 'C:\\Users\\srist\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe' login -u $env:DOCKER_USER --password-stdin"
+                    '''
 
                     echo 'Pushing ShopEase image to Docker Hub...'
 
