@@ -53,6 +53,11 @@ pipeline {
                 bat 'mvnw.cmd test -Dtest=ShopEaseSeleniumTest'
             }
         }
+        stage('Docker Check') {
+    steps {
+        bat 'docker --version'
+    }
+}
     }
 
     post {
